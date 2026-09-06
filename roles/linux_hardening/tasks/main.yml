@@ -1,0 +1,28 @@
+---
+- name: Install baseline security packages
+  ansible.builtin.package:
+    name: [audit, chrony]
+    state: present
+
+- name: Configure SSH baseline
+  ansible.builtin.template:
+    src: hardening.conf.j2
+    dest: /etc/ssh/sshd_config.d/50-hardening.conf
+    owner: root
+    group: root
+    mode: "0600"
+  notify: Restart sshd
+
+- name: Enable audit service
+  ansible.builtin.service:
+    name: auditd
+    state: started
+    enabled: true
+  when: hardening_enable_auditd
+
+- name: Disable IPv4 source routing
+  ansible.posix.sysctl:
+    name: net.ipv4.conf.all.accept_source_route
+    value: "0"
+    state: present
+    reload: true
