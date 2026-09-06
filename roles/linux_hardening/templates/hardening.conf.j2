@@ -1,0 +1,4 @@
+PermitRootLogin {{ 'no' if hardening_disable_root_login else 'yes' }}
+PasswordAuthentication {{ 'yes' if hardening_password_authentication else 'no' }}
+MaxAuthTries {{ hardening_max_auth_tries }}
+X11Forwarding no
