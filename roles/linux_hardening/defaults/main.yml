@@ -1,0 +1,5 @@
+---
+hardening_disable_root_login: true
+hardening_password_authentication: false
+hardening_max_auth_tries: 4
+hardening_enable_auditd: true
