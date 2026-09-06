@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check SSH hardening file exists
+      ansible.builtin.stat:
+        path: /etc/ssh/sshd_config.d/50-hardening.conf
+      register: ssh_hardening
+
+    - name: Assert hardening file exists
+      ansible.builtin.assert:
+        that:
+          - ssh_hardening.stat.exists
